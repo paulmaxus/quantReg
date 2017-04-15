@@ -1,0 +1,155 @@
+\documentclass{scrartcl}
+\usepackage{polyglossia}
+\setdefaultlanguage{german}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\title{QuantReg Parameter Estimation Tool}
+\subtitle{Benutzerhandbuch \vspace{1cm}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{quantRegLogo.png}
+\end{center}
+}
+\author{Max Paulus \\ Robert Dochow}
+\date{\today}
+\maketitle
+
+\thispagestyle{empty}
+\setcounter{page}{0}
+\newpage
+
+
+\tableofcontents
+\newpage
+
+\section{Einleitung}
+QuantReg ist ein Parameter Estimation Tool. Es berechnet für eine beliebige Anzahl an Aktienkursen Rendite und Risiko einer Investition. Das Tool wurde für Nutzer entwickelt, die sich mit folgenden Problemen beschäftigen:
+\begin{itemize}
+\item{Wie kann ich möglichst schnell und effizient Rendite und Risiko eines Kurses schätzen lassen?}
+\item{Ich habe mehrere Aktien im Blick und benötige einen schnellen, tabellarischen Überblick über Rendite und Risiko einer möglichen Investition} 
+\end{itemize} 
+Entwickelt wurde das Tool im Rahmen eines Praktikums am Lehrstuhl für Informations- und
+Technologiemanagement der Universität des Saarlandes von Max Paulus und Robert Dochow (Betreuer).
+
+\subsection{Nutzungshinweise}
+Dieses Tool wurde ausschließlich für Demonstrationszwecke konzipiert und sollte nicht als ausschlaggebendes Kriterium für eine Investition dienen. Für eventuelle finanzielle Schäden ist der Nutzer selbst verantwortlich.
+
+\subsection{Systemanforderungen}
+QuantReg sollte auf jedem Windows-PC laufen. Zusätzlich wird das .NET Framework 4.0 von Microsoft benötigt, das unter folgender Adresse kostenlos heruntergeladen werden kann: http://www.microsoft.com/germany/net/net-framework-4.aspx
+
+\section{Funktionen}
+Mathematische Grundlage von QuantReg ist die geometrische Brownsche Bewegung. Sie dient zur Modellierung der vorliegenden Kurshistorie. Es werden zwei Methoden verwendet um ein Modell zu erstellen:
+\begin{enumerate}
+\item{\textit{Monte Carlo} nimmt n Stichproben der Kurshistorie. Dadurch ist die Laufzeit variabel.}
+\item{\textit{Las Vegas} betrachtet alle Möglichkeiten. Nimmt also die maximale Anzahl an Stichproben. Die Laufzeit ist dadurch sehr hoch.}
+\end{enumerate}
+Durch einen Optimierungsalgorithmus zur Reduzierung des Fehlerwertes können aus diesen Modelldaten Rendite und Risiko geschätzt werden. 
+
+\section{User Interface}
+\subsection{Startbildschirm}
+Dieses Fenster dient zur Navigation des Programms. Es besteht die Möglichkeit zwischen drei Programmfunktionen zu wählen. Das Tutorial wurde für Einsteiger konzipiert und führt Schritt für Schritt die Konfiguration einer Analyse durch. Advanced sollte nur von Kennern des Programms verwendet werden, da keine ausführlichen Erläuterungen der Einstellungen vorhanden sind. Der fast-and-easy Zugang, kurz FAE, stellt Funktionen für das schnelle einlesen und auswerten von größeren Kursmengen zur Verfügung.
+
+\subsection{Tutorial}
+Das Tutorial besteht aus drei Registerkarten. Zum fortfahren mit der nächsten Karte kann der Button "Continue" verwendet werden oder alternativ auf die auszuwählende Karte geklickt werden.
+
+\subsubsection*{Step 1: File}
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{tuto1.jpg}
+\end{center}
+
+\begin{enumerate}
+\item[1.1]{Öffnen Sie eine .csv Datei mit der zu analysierenden Kurshistorie. Nach erfolgreichem Laden wird diese im unteren Teil des Fensters dargestellt.}
+\item[1.2]{Wenn das voreingestellte Trennzeichen nicht korrekt ist, kann hier das passende eingetragen werden.}
+\item[1.3]{Ist das Datum der Kurshistorie absteigend, d.h. steht der neueste Wert an oberster Stelle in der Tabelle, so muss dieses Kontrollkästchen markiert werden um eine korrekte Analyse zu gewährleisten.}
+\item[1.4]{Werden in der Tabelle Spaltenüberschriften verwendet, muss auch dieses Kästchen markiert werden.}
+\item[1.5]{Wählen Sie die Spalte mit der gewünschten Kurshistorie aus um sie für die Analyse bereitzustellen. Werden Spaltenüberschriften verwendet, so sind diese hier aufgelistet.} 
+\end{enumerate}
+
+\subsubsection*{Step 2: Settings}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{tuto2.jpg}
+\end{center}
+
+\begin{enumerate}
+\item[2.1]{Durch Drücken der Pfeiltasten kann die Höhe des investierten Geldes angepasst werden.}
+\item[2.2]{Dieser Wert bestimmt das zu betrachtende Quantil. Im Hauptfenster des Programms, welches nach dem Tutorial folgt, kann das Quantil mithilfe eines Regler jedoch nachträglich angepasst werden.}
+\item[2.3]{Da es sich bei QuantReg um ein Schätzprogramm handelt, muss angegeben werden auf welche Art und Weise Stichproben genommen werden. \textit{Full} arbeitet nach Las Vegas Prinzip, das heißt es werden alle Möglichkeiten berücksichtigt. Dadurch steigt natürlich die Laufzeit des Programms. Für eine schnellere Berechnung sollte \textit{Partial} gewählt werden. Diese Prozedur wurde nach dem Monte Carlo Prinzip erstellt. Der Benutzer kann dabei selbst entscheiden wie viele Stichproben das Programm nimmt.}
+\item[2.4]{Durch Verschieben des Regler können die Zeitintervalle der Stichproben verändert werden. Man sollte jedoch beachten, dass sich die Laufzeit für Intervalle von einem Tag drastisch erhöht.}
+\end{enumerate}
+
+\subsubsection*{Step 3: Optimization}
+\begin{center}
+\includegraphics[width=0.5\textwidth]{tuto3.jpg}
+\end{center}
+
+\begin{itemize}
+\item[3.1]{Die interne Berechnung der Modelle erfolgt entweder als Differenz oder als Division, was zu unterschiedlichen Ergebnissen führen kann.}
+\item[3.2]{Hier kann ein Modell ausgewählt welches berechnet werden soll. Wird nur der erwartete Gewinn berechnet, so fallen die Laufzeitkosten geringer aus, als bei einer Berechnung des Risikos. Werden beide Werte geschätzt, so steigt die Laufzeit um ein Vielfaches.}
+\item{\textit{Finish} startet die Berechnung. Die Ergebnisse werden grafisch im Fenster \textit{Advanced} präsentiert. Hier können auch die Einstellungen nachträglich angepasst werden (siehe Rubrik \textit{Advanced}).}
+\end{itemize}
+
+\subsection{Advanced}
+
+Die gezeigte Grafik stellt eine beispielhafte Berechnung für eine Kurshistorie dar. Der verwendete Kurs wurde aus einer Beispieltabelle entnommen (siehe Rubrik \textit{FAE}).
+
+\begin{center}
+\includegraphics[width=\textwidth]{adv1.jpg}
+\end{center}
+
+\begin{itemize}
+\item{Für \textit{Timeline} siehe \textit{Tutorial/Settings/2.4}.}
+\item{Für \textit{Investment and Samples} siehe \textit{Tutorial/Settings/2.1,2.3}.}
+\item{Für \textit{Choose Model} siehe \textit{Tutorial/Optimization/3.1,3.2}.}
+\item{\textit{Start} führt die Berechnung mit den ausgewählten Einstellungen aus. Die Grafik zeigt den Verlauf der Rendite je nach Länge der Investition (blau durchgezogen für den empirischen Verlauf, blau gestrichelt für den modellierten Verlauf). Parallel dazu ist für das angegebene Quantil in gelb die untere Schranke und in rot die oberste Schranke abgebildet. Es erscheint zusätzlich ein Regler mit dem das Quantil verändert werden kann. Die erneute Berechnung erfolgt dazu synchron.}
+\end{itemize}
+
+Unter dem Menü \textit{Data} kann mit \textit{New File} ein Fenster zum auswählen einer neuen Zeitreihe geöffnet werden.
+
+\begin{center}
+\includegraphics[width=\textwidth]{advFile.jpg}
+\end{center}
+
+Für die Erläuterung der verschiedenen Einstellungen siehe Tutorial/File.
+
+\subsection{FAE}
+
+Mit \textit{Fast And Easy} können komfortabel beliebig viele Kurse modelliert werden. Man sollte jedoch beachten, dass die Laufzeit durchaus sehr lang sein kann.
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{fae1.jpg}
+\end{center}
+
+Durch verschieben des Reglers wird das Intervall der Zeitreihe verändert, wie schon bei den anderen Funktionen des Programms erläutert. Alle anderen Einstellungen sind standardmäßig implementiert, sodass der Nutzer schnell die gewünschten Ergebnisse erhält. Um ein oder mehrere Kurshistorien zu laden klicken Sie bitte auf \textit{New File} und suchen im Browser nach der relevanten \textit{.csv} Datei. Daraufhin öffnet sich ein weiteres Fenster zur Auswahl der zu analysierenden Kurse.
+
+\begin{center}
+\includegraphics[width=\textwidth]{faeFile.jpg}
+\end{center}
+
+Nachdem die nötigen Einstellungen vorgenommen wurden, damit die Tabelle korrekt dargestellt wird (siehe oben), können Sie die gewünschten Kurshistorien durch halten von STRG und klicken auf die jeweilige Spalte in der Tabelle ausgewählt werden. Diese werden daraufhin blau markiert (siehe Grafik). Wurden alle relevanten Kurshistorien markiert, so kann durch klicken des \textit{Execute}-Buttons fortgefahren werden.
+
+Zurück im Hauptfenster von \textit{FAE} kann nun durch klicken auf \textit{Print} ein Zielverzeichnis ausgewählt werden um eine \textit{.csv} Tabelle mit den berechneten Rendite- und Risikowerten zu erstellen. 
+
+\subsection{Beispiel zu FAE}
+
+Es wurden beispielhaft Berechnungen für aktuelle Indices durchgeführt. 
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{example.jpg}
+\end{center}
+
+Dieser Ausschnitt zeigt den Beginn der Historie dreier Indices. Insgesamt sind 5437 Tageskurse in der Tabelle aufgelistet. Die \textit{FAE}-Berechnung der drei Indices resultierte in der Output-Tabelle wie sie unten gezeigt ist.
+
+\begin{center}
+\includegraphics[width=0.5\textwidth]{solution.jpg}
+\end{center}
+
+Für jeden Index wurden folgende Modellierungen vorgenommen: 
+
+\begin{itemize}
+\item{Modell 1: Optimierung zur Bestimmung der erwarteten Rendite}
+\item{Modell 2: Optimierung zur Bestimmung des Risikos}
+\item{Modell 3: Parallele Optimierung zur Bestimmung von Rendite und Risiko} 
+\end{itemize}
+
+\end{document}
